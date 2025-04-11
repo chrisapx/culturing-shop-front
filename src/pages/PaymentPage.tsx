@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout/Layout";
 import { useStore } from "@/contexts/StoreContext";
-import { Shield, CreditCard, Smartphone, BankTransfer, ArrowRight, CheckCircle } from "lucide-react";
+import { Shield, CreditCard, Smartphone, ArrowRight, CheckCircle, BanknoteIcon } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -58,7 +58,7 @@ const PaymentPage: React.FC = () => {
                 <RadioGroupItem value="wire" id="wire" className="mt-1" />
                 <div className="flex-1">
                   <Label htmlFor="wire" className="flex items-center text-base font-medium">
-                    <BankTransfer className="h-5 w-5 mr-2 text-purple-600" />
+                    <BanknoteIcon className="h-5 w-5 mr-2 text-purple-600" />
                     Wire Transfer (Recommended)
                   </Label>
                   <p className="text-sm text-gray-500 mt-1">
