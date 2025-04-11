@@ -56,11 +56,11 @@
   }
   
   .btn-primary {
-    @apply bg-culturing-DEFAULT text-white py-2 px-4 hover:bg-gray-900 transition-colors duration-200;
+    @apply bg-black text-white py-2 px-4 hover:bg-gray-900 transition-colors duration-200;
   }
   
   .btn-secondary {
-    @apply bg-transparent text-culturing-DEFAULT border border-culturing-DEFAULT py-2 px-4 hover:bg-culturing-DEFAULT hover:text-white transition-colors duration-200;
+    @apply bg-transparent text-black border border-black py-2 px-4 hover:bg-black hover:text-white transition-colors duration-200;
   }
   
   .product-grid {
