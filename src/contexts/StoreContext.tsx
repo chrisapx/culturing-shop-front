@@ -8,6 +8,8 @@ export interface Product {
   price: number;
   image: string;
   category: "inhouse" | "mmpd" | "artist";
+  selectedColor?: string;
+  selectedSize?: string;
 }
 
 interface CartItem extends Product {
@@ -31,8 +33,20 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
-      // Check if item already exists in cart
-      const existingItemIndex = prevItems.findIndex((item) => item.id === product.id);
+      // Generate a unique ID for the product with selected variants
+      const variantId = product.selectedColor || product.selectedSize 
+        ? `${product.id}-${product.selectedColor || ''}-${product.selectedSize || ''}`
+        : product.id;
+      
+      // Check if item with same variant already exists in cart
+      const existingItemIndex = prevItems.findIndex((item) => {
+        if (product.selectedColor || product.selectedSize) {
+          return item.id === product.id && 
+                 item.selectedColor === product.selectedColor && 
+                 item.selectedSize === product.selectedSize;
+        }
+        return item.id === product.id;
+      });
       
       if (existingItemIndex !== -1) {
         // Item exists, increment quantity
@@ -41,11 +55,20 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           ...updatedItems[existingItemIndex],
           quantity: updatedItems[existingItemIndex].quantity + 1,
         };
-        toast.success(`Added another ${product.name} to your cart`);
+        
+        const variantText = product.selectedColor || product.selectedSize 
+          ? `(${product.selectedColor || ''} ${product.selectedSize || ''})`
+          : '';
+          
+        toast.success(`Added another ${product.name} ${variantText} to your cart`);
         return updatedItems;
       } else {
         // Item doesn't exist, add new item with quantity 1
-        toast.success(`Added ${product.name} to your cart`);
+        const variantText = product.selectedColor || product.selectedSize 
+          ? `(${product.selectedColor || ''} ${product.selectedSize || ''})`
+          : '';
+          
+        toast.success(`Added ${product.name} ${variantText} to your cart`);
         return [...prevItems, { ...product, quantity: 1 }];
       }
     });
