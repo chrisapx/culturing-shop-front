@@ -11,13 +11,8 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Extended product interface to include images array
-interface ExtendedProduct extends Product {
-  images?: string[];
-}
-
 interface ProductDetailsProps {
-  product: ExtendedProduct;
+  product: Product;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -44,7 +39,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   if (!product) return null;
 
   // Use product images array or fall back to single image as array
-  const images = product.images || [product.image];
+  const images = product.images || [product.images[0]];
 
   const handleAddToCart = () => {
     addToCart({

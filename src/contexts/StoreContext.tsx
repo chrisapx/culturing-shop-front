@@ -6,7 +6,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  image: string;
+  images: string[];
   category: "inhouse" | "mmpd" | "artist";
   selectedColor?: string;
   selectedSize?: string;

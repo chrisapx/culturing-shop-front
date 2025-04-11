@@ -11,15 +11,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useStore();
   const [showDetails, setShowDetails] = useState(false);
   
-  // Generate multiple images for each product
-  const images = [
-    product.image,
-    // Additional images - in a real app these would come from the product data
-    product.image.replace("auto=format", "auto=format&fit=crop&w=800"),
-    product.image.replace("auto=format", "auto=format&sat=-100"),
-    product.image.replace("auto=format", "auto=format&blur=10")
-  ];
-  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const handleProductClick = () => {
@@ -34,14 +25,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           onClick={handleProductClick}
         >
           <img 
-            src={images[currentImageIndex]} 
+            src={product.images[currentImageIndex]} 
             alt={product.name} 
             className="product-image transition-transform duration-500 group-hover:scale-105"
           />
           
           {/* Image navigation dots */}
           <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
-            {images.map((_, index) => (
+            {product.images.map((_, index) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
@@ -72,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </div>
       
       <ProductDetails 
-        product={{...product, images}} 
+        product={product} 
         isOpen={showDetails} 
         onClose={() => setShowDetails(false)} 
       />

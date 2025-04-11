@@ -40,7 +40,7 @@ const CartPage: React.FC = () => {
                     id={item.id}
                     name={item.name}
                     price={item.price}
-                    image={item.image}
+                    image={item.images[0]}
                     quantity={item.quantity}
                   />
                 ))}
