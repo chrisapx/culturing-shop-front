@@ -11,6 +11,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useStore();
   const [showDetails, setShowDetails] = useState(false);
   
+  // Default image is the main product image
+  const images = [
+    product.image,
+    // Additional images - in a real app these would come from the product data
+    product.image.replace("auto=format", "auto=format&fit=crop&w=800"),
+    product.image.replace("auto=format", "auto=format&sat=-100")
+  ];
+  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
   const handleProductClick = () => {
     setShowDetails(true);
   };
@@ -19,14 +29,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <>
       <div className="product-card group animate-fadeIn">
         <div 
-          className="overflow-hidden mb-3 cursor-pointer" 
+          className="overflow-hidden mb-3 cursor-pointer relative" 
           onClick={handleProductClick}
         >
           <img 
-            src={product.image} 
+            src={images[currentImageIndex]} 
             alt={product.name} 
             className="product-image transition-transform duration-500 group-hover:scale-105"
           />
+          
+          {/* Image navigation dots */}
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  currentImageIndex === index ? "bg-black" : "bg-white/70"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentImageIndex(index);
+                }}
+                aria-label={`View image ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
         <h3 
           className="product-title cursor-pointer" 
@@ -44,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </div>
       
       <ProductDetails 
-        product={product} 
+        product={{...product, images}} 
         isOpen={showDetails} 
         onClose={() => setShowDetails(false)} 
       />
