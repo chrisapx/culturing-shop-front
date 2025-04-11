@@ -11,12 +11,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useStore();
   const [showDetails, setShowDetails] = useState(false);
   
-  // Default image is the main product image
+  // Generate multiple images for each product
   const images = [
     product.image,
     // Additional images - in a real app these would come from the product data
     product.image.replace("auto=format", "auto=format&fit=crop&w=800"),
-    product.image.replace("auto=format", "auto=format&sat=-100")
+    product.image.replace("auto=format", "auto=format&sat=-100"),
+    product.image.replace("auto=format", "auto=format&blur=10")
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

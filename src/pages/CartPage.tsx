@@ -1,18 +1,17 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout/Layout";
 import CartItem from "@/components/Cart/CartItem";
 import { useStore } from "@/contexts/StoreContext";
 import { ShoppingBag } from "lucide-react";
-import { toast } from "sonner";
 
 const CartPage: React.FC = () => {
   const { cartItems, cartTotal, clearCart } = useStore();
-
-  const handleCheckout = () => {
-    toast.success("Order placed successfully!");
-    clearCart();
+  const navigate = useNavigate();
+  
+  const handleProceedToCheckout = () => {
+    navigate("/payment");
   };
   
   return (
@@ -83,7 +82,7 @@ const CartPage: React.FC = () => {
               
               <button 
                 className="btn-primary w-full py-3"
-                onClick={handleCheckout}
+                onClick={handleProceedToCheckout}
               >
                 Proceed to Checkout
               </button>

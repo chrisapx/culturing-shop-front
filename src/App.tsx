@@ -13,6 +13,10 @@ import ArtistMerchPage from "./pages/ArtistMerchPage";
 import CartPage from "./pages/CartPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import PaymentPage from "./pages/PaymentPage";
+import OrdersPage from "./pages/OrdersPage";
+import ProfilePage from "./pages/ProfilePage";
+import HelpPage from "./pages/HelpPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +33,10 @@ const App = () => (
             <Route path="/artist-merch" element={<ArtistMerchPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/help" element={<HelpPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
