@@ -32,7 +32,7 @@ const MMPDPage: React.FC = () => {
     <Layout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-3">MMPD Collection</h1>
-        <p className="text-gray-600 mb-6">Apparel collection in collaboration with MMPD.</p>
+        <p className="text-[#5fa9af] mb-6">Apparel collection in collaboration with MMPD.</p>
         
         <div className="relative mb-6">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

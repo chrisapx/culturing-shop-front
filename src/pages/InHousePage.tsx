@@ -11,7 +11,7 @@ const InHousePage: React.FC = () => {
     <Layout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-3">In-House Collection</h1>
-        <p className="text-culturing-gray">Explore our signature products crafted by The Culturing.</p>
+        <p className="text-[#5fa9af]">Explore our signature products crafted by The Culturing.</p>
       </div>
       
       <ProductGrid products={inHouseProducts} />

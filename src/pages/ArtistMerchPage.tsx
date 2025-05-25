@@ -11,7 +11,7 @@ const ArtistMerchPage: React.FC = () => {
     <Layout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-3">Artist Merch</h1>
-        <p className="text-culturing-gray">Limited edition merchandise from our featured artists.</p>
+        <p className="text-[#5fa9af]">Limited edition merchandise from our featured artists.</p>
       </div>
       
       <ProductGrid products={artistProducts} />

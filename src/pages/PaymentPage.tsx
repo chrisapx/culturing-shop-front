@@ -54,12 +54,15 @@ const PaymentPage: React.FC = () => {
               onValueChange={(value: any) => setPaymentMethod(value)}
               className="space-y-4"
             >
-              <div className={`flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "wire" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
+                <p className="text-[#5fa9af] text-sm">To make payment, send the money to any of these bank or mobile money details and share with us the transaction ID for verification.
+                  Loking forward to working with you.
+                </p>
+              <div className={`flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "wire" ? "border-[#5fa9af] bg-blue-50" : "border-gray-200"}`}>
                 <RadioGroupItem value="wire" id="wire" className="mt-1" />
                 <div className="flex-1">
                   <Label htmlFor="wire" className="flex items-center text-base font-medium">
                     <BanknoteIcon className="h-5 w-5 mr-2 text-purple-600" />
-                    Wire Transfer (Recommended)
+                    Wire Transfer
                   </Label>
                   <p className="text-sm text-gray-500 mt-1">
                     Send payment to:<br />
@@ -71,7 +74,7 @@ const PaymentPage: React.FC = () => {
                 </div>
               </div>
               
-              <div className={`flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "card" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
+              <div className={`hidden flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "card" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
                 <RadioGroupItem value="card" id="card" className="mt-1" />
                 <div className="flex-1">
                   <Label htmlFor="card" className="flex items-center text-base font-medium">
@@ -84,7 +87,7 @@ const PaymentPage: React.FC = () => {
                 </div>
               </div>
               
-              <div className={`flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "mobile" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
+              <div className={`hidden flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "mobile" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
                 <RadioGroupItem value="mobile" id="mobile" className="mt-1" />
                 <div className="flex-1">
                   <Label htmlFor="mobile" className="flex items-center text-base font-medium">
@@ -148,7 +151,7 @@ const PaymentPage: React.FC = () => {
                 <div className="mt-6">
                   <button 
                     type="submit" 
-                    className="btn-primary w-full flex items-center justify-center"
+                    className="btn-primary w-full flex items-center justify-center bg-[#5fa9af] hover:bg-[#4a8f96] text-white font-semibold py-3 rounded-md transition-colors duration-200"
                     disabled={isProcessing}
                   >
                     {isProcessing ? (

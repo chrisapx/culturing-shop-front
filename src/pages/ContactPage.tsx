@@ -154,9 +154,8 @@ const ContactPage: React.FC = () => {
             </div>
             
             <div className="mt-8">
-              <h3 className="text-lg font-medium mb-4">Business Hours</h3>
-              <p className="mb-2">Monday - Friday: 9:00 AM - 6:00 PM</p>
-              <p>Saturday: 10:00 AM - 4:00 PM</p>
+              <h3 className="text-lg font-medium mb-4">Logistics</h3>
+              <p className="mb-2">Logistics are fullfilled by our partners</p>
             </div>
           </div>
         </div>

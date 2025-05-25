@@ -22,11 +22,14 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="bg-white py-4 px-4 md:px-6 border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-[#5fa9af] text-white py-4 px-4 md:px-6 border-b border-gray-200 sticky top-0 z-50">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className="flex w-full md:w-auto justify-between items-center mb-4 md:mb-0">
           <Link to="/" className="text-2xl font-bold tracking-tighter">
-            theculturing.shop
+            <div className="flex items-center">
+              <img src="/logos/Artboard-5@2x-8.png" alt="The Culturing Logo" className="h-9"/>
+              <span className="backdrop-xl">.shop</span>
+            </div>
           </Link>
           
           {isMobile && (

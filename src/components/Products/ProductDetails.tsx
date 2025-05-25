@@ -108,7 +108,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </DialogHeader>
             <div className="mt-4">
               <p className="text-lg font-medium">${product.price.toFixed(2)}</p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-[#5fa9af] mt-2">
                 High-quality product from {product.category === "inhouse" 
                   ? "The Culturing" 
                   : product.category === "mmpd" 
@@ -144,7 +144,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     key={size}
                     className={`w-10 h-10 flex items-center justify-center border ${
                       selectedSize === size
-                        ? "border-black bg-black text-white"
+                        ? "border-[#5fa9af] bg-[#5fa9af] text-white"
                         : "border-gray-200"
                     }`}
                     onClick={() => setSelectedSize(size)}
@@ -157,7 +157,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
             <div className="mt-8">
               <Button
-                className="w-full py-6"
+                className="w-full py-6 bg-[#5fa9af] text-white hover:bg-[#4a8f9c] transition-colors"
                 onClick={handleAddToCart}
               >
                 Add to Cart - ${product.price.toFixed(2)}

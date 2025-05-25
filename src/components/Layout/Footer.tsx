@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
               rel="noopener noreferrer"
               className="text-white hover:text-culturing-red transition-colors"
             >
-              Visit The Culturing Main Site
+              Visit TheCulturing.com
             </a>
           </div>
           

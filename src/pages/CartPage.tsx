@@ -22,7 +22,7 @@ const CartPage: React.FC = () => {
         <div className="text-center py-16">
           <ShoppingBag className="h-16 w-16 mx-auto mb-6 text-culturing-gray" />
           <h2 className="text-2xl font-medium mb-4">Your cart is empty</h2>
-          <p className="text-culturing-gray mb-8">Looks like you haven't added any products to your cart yet.</p>
+          <p className="text-[#5fa9af] mb-8">Looks like you haven't added any products to your cart yet.</p>
           <Link to="/" className="btn-primary">
             Start Shopping
           </Link>
@@ -81,7 +81,8 @@ const CartPage: React.FC = () => {
               </div>
               
               <button 
-                className="btn-primary w-full py-3"
+                className="btn-primary w-full py-3 bg-[#5fa9af] hover:bg-[#4a8f96] text-white font-semibold"
+                disabled={cartItems.length === 0}
                 onClick={handleProceedToCheckout}
               >
                 Proceed to Checkout
