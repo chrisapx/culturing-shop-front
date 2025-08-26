@@ -1,22 +1,40 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout/Layout";
 import { useStore } from "@/contexts/StoreContext";
-import { Shield, CreditCard, Smartphone, ArrowRight, CheckCircle, BanknoteIcon } from "lucide-react";
+import { ArrowRight, Smartphone, QrCode } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
+import axios from "axios";
+import { getAuthUser, getCurrentOrderId } from "@/lib/AuthCookieManager";
 
 const PaymentPage: React.FC = () => {
-  const { cartItems, cartTotal, clearCart } = useStore();
+  const { cartTotal, clearCart } = useStore();
   const navigate = useNavigate();
-  const [paymentMethod, setPaymentMethod] = useState<"wire" | "card" | "mobile">("wire");
+  const [paymentMethod, setPaymentMethod] = useState<"airtel" | "momo">("airtel");
   const [isProcessing, setIsProcessing] = useState(false);
-  
+
+  const qrCodes: Record<string, string> = {
+    airtel: "/qrcodes/airtel.png",
+    momo: "/qrcodes/momo.png",
+  };
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -25,85 +43,149 @@ const PaymentPage: React.FC = () => {
     },
   });
 
+  const merchantCodes: Record<string, string> = {
+    airtel: "959208",
+    momo: "959208",
+  };
+
   const onSubmit = async (data: any) => {
-    setIsProcessing(true);
-    
-    // Simulate payment processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      toast.success("Payment processed successfully!");
+    try {
+      setIsProcessing(true);
+
+      const body = {
+        customerId: getAuthUser()?.userId ?? "",
+        paymentRef: getCurrentOrderId(),
+        amount: cartTotal,
+        paymentMethod,
+        fullNames: data.name,
+        accountNumberUsed: "",
+        mobileNumberUsed: data?.email,
+        merchantCodeUsed: merchantCodes[paymentMethod],
+      };
+
+      const res = await axios.post("https://api.suavemusicpr.com/api/v1/payments", body);
+
+      toast.success("Payment submitted successfully!");
       clearCart();
       navigate("/orders");
-    }, 2000);
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Failed to process payment. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
-  
+
+  const methods = [
+    {
+      id: "airtel",
+      label: "Airtel Pay",
+      icon: <Smartphone className="h-5 w-5 mr-2 text-red-500" />,
+      details: (
+        <>
+          Merchant Code: {merchantCodes.airtel} <br />
+          Account Name: The Culturing Ltd <br />
+        </>
+      ),
+    },
+    {
+      id: "momo",
+      label: "MTN MoMo Pay",
+      icon: <Smartphone className="h-5 w-5 mr-2 text-yellow-500" />,
+      details: (
+        <>
+          Merchant Code: {merchantCodes.momo} <br />
+          Account Name: The Culturing Ltd <br />
+        </>
+      ),
+    },
+  ];
+
   return (
     <Layout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-3">Complete Your Payment</h1>
-        <p className="text-gray-600">Please select your preferred payment method.</p>
+        <p className="text-gray-600">
+          Select your preferred payment method, view the details, then share
+          your transaction ID for verification.
+        </p>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Payment Methods */}
         <div className="lg:col-span-2">
           <div className="bg-white border border-gray-200 p-6 rounded-md">
             <h2 className="text-xl font-medium mb-6">Payment Method</h2>
-            
-            <RadioGroup 
-              value={paymentMethod} 
+
+            <RadioGroup
+              value={paymentMethod}
               onValueChange={(value: any) => setPaymentMethod(value)}
               className="space-y-4"
             >
-                <p className="text-[#5fa9af] text-sm">To make payment, send the money to any of these bank or mobile money details and share with us the transaction ID for verification.
-                  Loking forward to working with you.
-                </p>
-              <div className={`flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "wire" ? "border-[#5fa9af] bg-blue-50" : "border-gray-200"}`}>
-                <RadioGroupItem value="wire" id="wire" className="mt-1" />
-                <div className="flex-1">
-                  <Label htmlFor="wire" className="flex items-center text-base font-medium">
-                    <BanknoteIcon className="h-5 w-5 mr-2 text-purple-600" />
-                    Wire Transfer
-                  </Label>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Send payment to:<br />
-                    Account Name: The Culturing Ltd<br />
-                    Account Number: 0123456789<br />
-                    Bank: Example Bank<br />
-                    Reference: Your order number
-                  </p>
+              {methods.map((method) => (
+                <div
+                  key={method.id}
+                  className={`border rounded-md transition-all duration-300 ${
+                    paymentMethod === method.id
+                      ? "border-[#5fa9af] bg-blue-50"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center p-4 cursor-pointer">
+                    <RadioGroupItem
+                      value={method.id}
+                      id={method.id}
+                      className="mr-3"
+                    />
+                    <Label
+                      htmlFor={method.id}
+                      className="flex items-center text-base font-medium"
+                    >
+                      {method.icon}
+                      {method.label}
+                    </Label>
+                  </div>
+
+                  {/* Expanded details */}
+                  {paymentMethod === method.id && (
+                    <div className="px-6 pb-4 text-sm text-gray-700 animate-fadeIn">
+                      {method.details}
+
+                      {/* QR only for Airtel & MoMo */}
+                      {qrCodes[method.id] && (
+                        <div className="mt-3">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <button className="flex items-center gap-2 text-sm px-3 py-2 border rounded-md hover:bg-gray-100 transition">
+                                <QrCode className="h-4 w-4 text-gray-600" />
+                                View QR Code
+                              </button>
+                            </DialogTrigger>
+                            <DialogContent className="p-6 flex flex-col items-center">
+                              <h3 className="text-lg font-semibold mb-3">
+                                {method.label} QR
+                              </h3>
+                              <img
+                                src={qrCodes[method.id]}
+                                alt={`${method.label} QR`}
+                                className="w-64 h-64 rounded-lg border"
+                              />
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </div>
-              
-              <div className={`hidden flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "card" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
-                <RadioGroupItem value="card" id="card" className="mt-1" />
-                <div className="flex-1">
-                  <Label htmlFor="card" className="flex items-center text-base font-medium">
-                    <CreditCard className="h-5 w-5 mr-2 text-purple-600" />
-                    Credit/Debit Card
-                  </Label>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Securely pay with your credit or debit card.
-                  </p>
-                </div>
-              </div>
-              
-              <div className={`hidden flex items-start space-x-3 border p-4 rounded-md ${paymentMethod === "mobile" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}>
-                <RadioGroupItem value="mobile" id="mobile" className="mt-1" />
-                <div className="flex-1">
-                  <Label htmlFor="mobile" className="flex items-center text-base font-medium">
-                    <Smartphone className="h-5 w-5 mr-2 text-purple-600" />
-                    Mobile Money
-                  </Label>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Pay using mobile money services.<br />
-                    Mobile Money Number: +123 456 7890
-                  </p>
-                </div>
-              </div>
+              ))}
             </RadioGroup>
-            
+
+            {/* Payment Form */}
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mt-6 space-y-4"
+              >
                 <FormField
                   control={form.control}
                   name="name"
@@ -117,40 +199,43 @@ const PaymentPage: React.FC = () => {
                     </FormItem>
                   )}
                 />
-                
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
+                      <FormLabel>Phone number used</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Enter your email" {...field} />
+                        <Input
+                          type="email"
+                          placeholder="Enter your email"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
-                {paymentMethod === "wire" && (
-                  <FormField
-                    control={form.control}
-                    name="transactionId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Transaction ID/Reference</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter transaction ID or reference" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-                
+                <FormField
+                  control={form.control}
+                  name="transactionId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Transaction ID/Reference</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter transaction ID or reference"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <div className="mt-6">
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="btn-primary w-full flex items-center justify-center bg-[#5fa9af] hover:bg-[#4a8f96] text-white font-semibold py-3 rounded-md transition-colors duration-200"
                     disabled={isProcessing}
                   >
@@ -168,42 +253,22 @@ const PaymentPage: React.FC = () => {
             </Form>
           </div>
         </div>
-        
+
+        {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="bg-white border border-gray-200 p-6 rounded-md">
             <h2 className="text-xl font-medium mb-4">Order Summary</h2>
-            
-            <div className="mb-4 pb-4 border-b border-gray-200">
-              <div className="flex justify-between mb-2">
-                <span>Subtotal</span>
-                <span>${cartTotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Shipping</span>
-                <span>$0.00</span>
-              </div>
+            <div className="flex justify-between mb-2">
+              <span>Subtotal</span>
+              <span>{cartTotal.toFixed(2)} UGX</span>
             </div>
-            
-            <div className="flex justify-between font-semibold mb-6">
+            <div className="flex justify-between mb-2">
+              <span>Shipping</span>
+              <span>0 UGX</span>
+            </div>
+            <div className="flex justify-between font-semibold text-lg mt-2 border-t pt-2">
               <span>Total</span>
-              <span>${cartTotal.toFixed(2)}</span>
-            </div>
-          </div>
-          
-          <div className="mt-6 bg-purple-50 border border-purple-200 p-4 rounded-md">
-            <div className="flex items-start mb-3">
-              <Shield className="h-5 w-5 text-purple-600 mr-2 mt-0.5" />
-              <div>
-                <h3 className="font-medium">Secure Payments</h3>
-                <p className="text-sm text-gray-600">Your payment information is encrypted and secure.</p>
-              </div>
-            </div>
-            <div className="flex items-start">
-              <CheckCircle className="h-5 w-5 text-purple-600 mr-2 mt-0.5" />
-              <div>
-                <h3 className="font-medium">Protected by The Culturing</h3>
-                <p className="text-sm text-gray-600">Your data is protected under our privacy policy.</p>
-              </div>
+              <span>{cartTotal.toFixed(2)} UGX</span>
             </div>
           </div>
         </div>

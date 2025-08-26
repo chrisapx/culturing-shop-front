@@ -67,7 +67,7 @@ const CartPage: React.FC = () => {
               <div className="mb-4 pb-4 border-b border-gray-200">
                 <div className="flex justify-between mb-2">
                   <span>Subtotal</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <span>Ush {cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
@@ -77,7 +77,7 @@ const CartPage: React.FC = () => {
               
               <div className="flex justify-between font-semibold mb-6">
                 <span>Total</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>Ush {cartTotal.toFixed(2)}</span>
               </div>
               
               <button 

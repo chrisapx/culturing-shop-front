@@ -53,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         >
           {product.name}
         </h3>
-        <p className="product-price">${product.price.toFixed(2)}</p>
+        <p className="product-price">Ush {product.price.toFixed(2)}</p>
         <button 
           onClick={() => addToCart(product)}
           className="btn-primary bg-[#5fa9af]  w-full hover:bg-[#4a8f9b] transition-colors text-white"

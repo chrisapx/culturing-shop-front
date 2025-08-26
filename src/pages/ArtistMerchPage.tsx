@@ -1,11 +1,20 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout/Layout";
 import ProductGrid from "@/components/Products/ProductGrid";
 import { getProductsByCategory } from "@/data/products";
 
 const ArtistMerchPage: React.FC = () => {
-  const artistProducts = getProductsByCategory("artist");
+  const [products, setProducts] = useState([]);
+    
+  useEffect(() => {
+    const handleFetch = async () => {
+      const ps = await getProductsByCategory("artist");
+      setProducts(ps);
+    }
+
+    handleFetch();
+  }, []);
   
   return (
     <Layout>
@@ -14,7 +23,7 @@ const ArtistMerchPage: React.FC = () => {
         <p className="text-[#5fa9af]">Limited edition merchandise from our featured artists.</p>
       </div>
       
-      <ProductGrid products={artistProducts} />
+      <ProductGrid products={products} />
     </Layout>
   );
 };

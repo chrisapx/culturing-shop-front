@@ -13,17 +13,20 @@ import {
 
 interface ProductGridProps {
   products: Product[];
+  page?: number;
+  limit?: number;
+  totalPages?: number;
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const [totalPages, setTotalPages] = useState(1);
   
   // Calculate pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  // const indexOfLastProduct = currentPage * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  // const totalPages = Math.ceil(products.length / productsPerPage);
   
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -33,7 +36,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   return (
     <div>
       <div className="product-grid">
-        {currentProducts.map((product) => (
+        {products?.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

@@ -26,7 +26,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, name, price, image, quantity })
       
       <div className="flex-grow sm:mr-4">
         <h3 className="text-lg font-medium">{name}</h3>
-        <p className="text-culturing-gray">${price.toFixed(2)}</p>
+        <p className="text-culturing-gray">Ush {price.toFixed(2)}</p>
       </div>
       
       <div className="flex items-center mt-2 sm:mt-0">

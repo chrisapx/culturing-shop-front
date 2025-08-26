@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout/Layout";
 import ProductGrid from "@/components/Products/ProductGrid";
 import { getProductsByCategory } from "@/data/products";
@@ -8,10 +8,19 @@ import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const MMPDPage: React.FC = () => {
-  const mmpdProducts = getProductsByCategory("mmpd");
+  const [mmpdProducts, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
+
+  useEffect(() => {
+    const handleFetch = async () => {
+      const ps = await getProductsByCategory("mmpd");
+      setProducts(ps);
+    }
+
+    handleFetch();
+  }, []);
   
   const filteredProducts = mmpdProducts.filter(product => 
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,6 +58,10 @@ const MMPDPage: React.FC = () => {
       </div>
       
       <ProductGrid products={currentProducts} />
+
+      { filteredProducts.length < 1 &&
+        <div>No Products available</div>
+      }
       
       {/* Pagination */}
       {totalPages > 1 && (

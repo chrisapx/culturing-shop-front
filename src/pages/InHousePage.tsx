@@ -1,11 +1,20 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout/Layout";
 import ProductGrid from "@/components/Products/ProductGrid";
 import { getProductsByCategory } from "@/data/products";
 
 const InHousePage: React.FC = () => {
-  const inHouseProducts = getProductsByCategory("inhouse");
+  const [products, setProducts] = useState([]);
+  
+  useEffect(() => {
+    const handleFetch = async () => {
+      const ps = await getProductsByCategory("inhouse");
+      setProducts(ps);
+    }
+
+    handleFetch();
+  }, []);
   
   return (
     <Layout>
@@ -14,7 +23,7 @@ const InHousePage: React.FC = () => {
         <p className="text-[#5fa9af]">Explore our signature products crafted by The Culturing.</p>
       </div>
       
-      <ProductGrid products={inHouseProducts} />
+      <ProductGrid products={products} />
     </Layout>
   );
 };

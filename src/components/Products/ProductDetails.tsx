@@ -107,7 +107,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               </DialogTitle>
             </DialogHeader>
             <div className="mt-4">
-              <p className="text-lg font-medium">${product.price.toFixed(2)}</p>
+              <p className="text-lg font-medium">Ush {product.price.toFixed(2)}</p>
               <p className="text-sm text-[#5fa9af] mt-2">
                 High-quality product from {product.category === "inhouse" 
                   ? "The Culturing" 
@@ -117,7 +117,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               </p>
             </div>
 
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <h4 className="font-medium mb-2">Color</h4>
               <div className="flex gap-2">
                 {COLORS.map((color) => (
@@ -153,14 +153,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             <div className="mt-8">
               <Button
                 className="w-full py-6 bg-[#5fa9af] text-white hover:bg-[#4a8f9c] transition-colors"
                 onClick={handleAddToCart}
               >
-                Add to Cart - ${product.price.toFixed(2)}
+                Add to Cart - Ush {product.price.toFixed(2)}
               </Button>
             </div>
           </div>
