@@ -17,6 +17,8 @@ import PaymentPage from "./pages/PaymentPage";
 import OrdersPage from "./pages/OrdersPage";
 import ProfilePage from "./pages/ProfilePage";
 import HelpPage from "./pages/HelpPage";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<InHousePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/mmpd" element={<MMPDPage />} />
             <Route path="/artist-merch" element={<ArtistMerchPage />} />
             <Route path="/cart" element={<CartPage />} />

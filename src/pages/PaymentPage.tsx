@@ -207,8 +207,8 @@ const PaymentPage: React.FC = () => {
                       <FormLabel>Phone number used</FormLabel>
                       <FormControl>
                         <Input
-                          type="email"
-                          placeholder="Enter your email"
+                          type="text"
+                          placeholder="Enter the number used to pay"
                           {...field}
                         />
                       </FormControl>
