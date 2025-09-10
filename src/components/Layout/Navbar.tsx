@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -10,13 +10,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { isAuthenticated, logout } from "@/lib/AuthCookieManager";
 
 const Navbar: React.FC = () => {
   const { cartItemsCount } = useStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  }
   const isActive = (path: string) => {
     return location.pathname === path ? "font-bold border-b-2 border-black" : "";
   };
@@ -70,6 +75,16 @@ const Navbar: React.FC = () => {
                       Contact
                     </Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/orders" className={`w-full ${isActive("/orders")}`}>
+                      Orders
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <button onClick={handleLogout} className={`w-full`}>
+                      Logout
+                    </button>
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -90,6 +105,12 @@ const Navbar: React.FC = () => {
             <Link to="/contact" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/contact")}`}>
               Contact
             </Link>
+            <Link to="/orders" className={`text-sm tracking-wider hover:text-accent ${isActive("/orders")}`}>
+              Orders
+            </Link>
+            <button onClick={handleLogout} className={`text-sm tracking-wider hover:text-accent`}>
+              { isAuthenticated() ? "Logout" : "Login" }
+            </button>
             <Link to="/cart" className="relative">
               <ShoppingCart className="h-5 w-5" />
               {cartItemsCount > 0 && (

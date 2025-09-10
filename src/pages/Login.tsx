@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     setError("");
 
     try {
-      const res = await fetch("https://api.suavemusicpr.com/api/v1/users/login", {
+      const res = await fetch("http://localhost:8090/api/v1/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({password: formData.password, username: formData.email}),

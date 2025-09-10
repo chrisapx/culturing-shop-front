@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
     setError("");
 
     try {
-      const res = await fetch("https://api.suavemusicpr.com/api/v1/users", {
+      const res = await fetch("http://localhost:8090/api/v1/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
