@@ -5,13 +5,15 @@ import { Trash } from "lucide-react";
 
 interface CartItemProps {
   id: string;
+  product?: string;
   name: string;
   price: number;
   image: string;
-  quantity: number;
+  productId: string;
+  quantity?: number;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ id, name, price, image, quantity }) => {
+const CartItem: React.FC<CartItemProps | any> = ({ id, name, price, image, quantity }) => {
   const { updateQuantity, removeFromCart } = useStore();
   
   return (

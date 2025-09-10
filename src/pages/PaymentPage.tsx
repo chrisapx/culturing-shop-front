@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout/Layout";
 import { useStore } from "@/contexts/StoreContext";
@@ -29,6 +29,8 @@ const PaymentPage: React.FC = () => {
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState<"airtel" | "momo">("airtel");
   const [isProcessing, setIsProcessing] = useState(false);
+  const { pRef } = useParams();
+  const { cTotal } = useParams();
 
   const qrCodes: Record<string, string> = {
     airtel: "/qrcodes/airtel.png",
@@ -54,8 +56,8 @@ const PaymentPage: React.FC = () => {
 
       const body = {
         customerId: getAuthUser()?.userId ?? "",
-        paymentRef: getCurrentOrderId(),
-        amount: cartTotal,
+        paymentRef: pRef ?? "",
+        amount: cTotal,
         paymentMethod,
         fullNames: data.name,
         accountNumberUsed: "",
@@ -111,7 +113,9 @@ const PaymentPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="text-lg text-green-700 pb-5">Pay Ush {Number(cTotal).toLocaleString()}</div>
+
+      <div className="">
         {/* Payment Methods */}
         <div className="lg:col-span-2">
           <div className="bg-white border border-gray-200 p-6 rounded-md">
@@ -207,7 +211,7 @@ const PaymentPage: React.FC = () => {
                       <FormLabel>Phone number used</FormLabel>
                       <FormControl>
                         <Input
-                          type="text"
+                          type="number"
                           placeholder="Enter the number used to pay"
                           {...field}
                         />
@@ -255,7 +259,7 @@ const PaymentPage: React.FC = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="lg:col-span-1">
+        {/* <div className="lg:col-span-1">
           <div className="bg-white border border-gray-200 p-6 rounded-md">
             <h2 className="text-xl font-medium mb-4">Order Summary</h2>
             <div className="flex justify-between mb-2">
@@ -271,7 +275,7 @@ const PaymentPage: React.FC = () => {
               <span>{cartTotal.toFixed(2)} UGX</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

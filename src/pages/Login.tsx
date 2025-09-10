@@ -1,7 +1,7 @@
 "use client";
 import { setAuthUser, setUserToken } from "@/lib/AuthCookieManager";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
         body: JSON.stringify({password: formData.password, username: formData.email}),
       });
 
-      if (!res.ok) throw new Error("Invalid credentials");
+      if (!res.ok) setError(await res.text());
       const data = await res.json();
 
       setUserToken(data.token);
@@ -33,7 +33,7 @@ const Login: React.FC = () => {
 
       navigate("/cart");
     } catch (err: any) {
-      setError(err.message || "Login failed");
+      setError(err.response.data || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -67,6 +67,8 @@ const Login: React.FC = () => {
           onChange={handleChange}
           className="w-full p-3 border rounded-lg mb-6"
         />
+
+        <div>Don't have an Account? <Link to={"/signup"} className="text-blue-500">Register</Link> </div>
 
         <button
           type="submit"

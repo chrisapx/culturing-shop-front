@@ -15,13 +15,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
       ARTIST_MERCH: "artist",
     };
 
-    return data.map((item: any) => ({
-      id: item.id?.toString(),
-      name: item.name,
-      price: item.price,
-      images: item.images || [],
-      category: categoryMap[item.category] || "inhouse",
-    }));
+    return data.map((item: any) => ({...item, category: categoryMap[item.category] || "inhouse" }));
   } catch (error) {
     console.error("Error fetching products:", error);
     return [];

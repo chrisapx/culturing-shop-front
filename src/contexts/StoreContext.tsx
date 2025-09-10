@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 export interface Product {
   id: string;
+  productId: string;
   name: string;
   price: number;
   images: string[];
@@ -61,6 +62,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           : '';
           
         toast.success(`Added another ${product.name} ${variantText} to your cart`);
+        console.log(updatedItems);
         return updatedItems;
       } else {
         // Item doesn't exist, add new item with quantity 1

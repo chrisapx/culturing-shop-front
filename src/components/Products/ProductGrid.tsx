@@ -32,6 +32,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  console.log(products);
   
   return (
     <div>

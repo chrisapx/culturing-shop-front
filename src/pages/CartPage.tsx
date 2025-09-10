@@ -1,19 +1,61 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout/Layout";
 import CartItem from "@/components/Cart/CartItem";
 import { useStore } from "@/contexts/StoreContext";
 import { ShoppingBag } from "lucide-react";
+import { toast } from "sonner";
+import axios from "axios";
+import { getAuthUser } from "@/lib/AuthCookieManager";
 
 const CartPage: React.FC = () => {
   const { cartItems, cartTotal, clearCart } = useStore();
   const navigate = useNavigate();
-  
-  const handleProceedToCheckout = () => {
-    navigate("/payment");
+  const ototal = cartTotal;
+
+  const customerId = getAuthUser()?.userId;
+
+  const handleProceedToCheckout = async () => {
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
+
+    const user = getAuthUser();
+      if (!user?.userId) {
+        toast.error("Please log in to checkout cart");
+        navigate("/login");
+        return;
+    }
+
+    const orderItems = cartItems.map((item: any) => ({
+      quantity: item.quantity,
+      unitPrice: item.price,
+      productId: item.productId,
+      orderId: "", // Backend generates this
+    }));
+
+    // Create order payload
+    const order = {
+      customerId,
+      orderItems,
+      status: "OPEN",
+      totalPrice: cartTotal,
+    };
+
+    try {
+      const response = await axios.post("https://api.suavemusicpr.com/api/v1/orders", order, {
+        headers: { "Content-Type": "application/json" },
+      });
+      toast.success("Order created successfully!");
+      clearCart();
+      navigate("/payment/" + response.data.orderId + "/" + ototal, { state: { orderId: response.data.orderId } });
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error(error.response.data);
+    }
   };
-  
+
   return (
     <Layout>
       <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
@@ -32,12 +74,11 @@ const CartPage: React.FC = () => {
           <div className="lg:col-span-2">
             <div className="bg-white border border-gray-200 p-6">
               <h2 className="text-xl font-medium mb-4">Cart Items</h2>
-              
               <div>
                 {cartItems.map((item) => (
                   <CartItem
                     key={item.id}
-                    id={item.id}
+                    id={item.productId}
                     name={item.name}
                     price={item.price}
                     image={item.images[0]}
@@ -45,7 +86,6 @@ const CartPage: React.FC = () => {
                   />
                 ))}
               </div>
-              
               <div className="mt-6 flex justify-between">
                 <Link to="/" className="text-culturing-DEFAULT hover:underline">
                   Continue Shopping
@@ -59,11 +99,9 @@ const CartPage: React.FC = () => {
               </div>
             </div>
           </div>
-          
           <div className="lg:col-span-1">
             <div className="bg-white border border-gray-200 p-6">
               <h2 className="text-xl font-medium mb-4">Order Summary</h2>
-              
               <div className="mb-4 pb-4 border-b border-gray-200">
                 <div className="flex justify-between mb-2">
                   <span>Subtotal</span>
@@ -74,12 +112,10 @@ const CartPage: React.FC = () => {
                   <span>Calculated at checkout</span>
                 </div>
               </div>
-              
               <div className="flex justify-between font-semibold mb-6">
                 <span>Total</span>
                 <span>Ush {cartTotal.toFixed(2)}</span>
               </div>
-              
               <button 
                 className="btn-primary w-full py-3 bg-[#5fa9af] hover:bg-[#4a8f96] text-white font-semibold"
                 disabled={cartItems.length === 0}
