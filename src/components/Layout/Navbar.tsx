@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { isAuthenticated, logout } from "@/lib/AuthCookieManager";
+import { getAuthUser, isAuthenticated, logout } from "@/lib/AuthCookieManager";
 
 const Navbar: React.FC = () => {
   const { cartItemsCount } = useStore();
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
               Orders
             </Link>
             <button onClick={handleLogout} className={`text-sm tracking-wider hover:text-accent`}>
-              { isAuthenticated() ? "Logout" : "Login" }
+              { getAuthUser()?.userId ? "Logout" : "Login" }
             </button>
             <Link to="/cart" className="relative">
               <ShoppingCart className="h-5 w-5" />
