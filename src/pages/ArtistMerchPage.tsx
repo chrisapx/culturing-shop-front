@@ -22,8 +22,8 @@ const ArtistMerchPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-3">Artist Merch</h1>
         <p className="text-[#5fa9af]">Limited edition merchandise from our featured artists.</p>
       </div>
-      
-      { products ? <ProductGrid products={products} /> : <div>Artist Merch products coming soon...</div>}
+      <ProductGrid products={products} />
+      { products.length < 1 && <div>Artist Merch products coming soon...</div>}
     </Layout>
   );
 };

@@ -22,8 +22,8 @@ const InHousePage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-3">In-House Collection</h1>
         <p className="text-[#5fa9af]">Explore our signature products crafted by The Culturing.</p>
       </div>
-      
-      { products ? <ProductGrid products={products} /> : <div>In House products coming soon...</div>}
+      <ProductGrid products={products} />
+      { products.length < 1 && <div>In House products coming soon...</div>}
     </Layout>
   );
 };
