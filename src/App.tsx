@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { StoreProvider } from "./contexts/StoreContext";
 
-// Pages
 import InHousePage from "./pages/InHousePage";
 import MMPDPage from "./pages/MMPDPage";
 import ArtistMerchPage from "./pages/ArtistMerchPage";

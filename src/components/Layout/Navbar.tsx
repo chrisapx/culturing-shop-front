@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import { FC } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
@@ -10,14 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAuthUser, isAuthenticated, logout } from "@/lib/AuthCookieManager";
+import { getAuthUser, logout } from "@/lib/AuthCookieManager";
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
   const { cartItemsCount } = useStore();
   const location = useLocation();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleLogout = () => {
     logout();
     navigate("/login");
