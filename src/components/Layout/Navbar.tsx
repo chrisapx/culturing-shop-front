@@ -57,12 +57,12 @@ const Navbar: React.FC = () => {
                 <DropdownMenuContent align="end" className="bg-white w-56">
                   <DropdownMenuItem asChild>
                     <Link to="/" className={`w-full ${isActive("/")}`}>
-                      In-House
+                      MMPD
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/mmpd" className={`w-full ${isActive("/mmpd")}`}>
-                      MMPD
+                    <Link to="/in-house" className={`w-full ${isActive("/in-house")}`}>
+                      In-House
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
@@ -94,10 +94,10 @@ const Navbar: React.FC = () => {
         {!isMobile && (
           <nav className="flex items-center space-x-6">
             <Link to="/" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/")}`}>
-              In-House
-            </Link>
-            <Link to="/mmpd" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/mmpd")}`}>
               MMPD
+            </Link>
+            <Link to="/in-house" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/in-house")}`}>
+              In-House
             </Link>
             <Link to="/artist-merch" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/artist-merch")}`}>
               Artist Merch
