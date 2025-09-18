@@ -60,7 +60,7 @@ const MMPDPage: React.FC = () => {
       <ProductGrid products={currentProducts} />
 
       { filteredProducts.length < 1 &&
-        <div>No Products available</div>
+        <div>No Products available! Adding our collection soon...</div>
       }
       
       {/* Pagination */}

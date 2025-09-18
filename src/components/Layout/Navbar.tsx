@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
           <Link to="/" className="text-2xl font-bold tracking-tighter">
             <div className="flex items-center">
               <img src="/logos/Artboard-5@2x-8.png" alt="The Culturing Logo" className="h-9"/>
-              <span className="backdrop-xl">.shop</span>
+              <span className="backdrop-xl">.store</span>
             </div>
           </Link>
           

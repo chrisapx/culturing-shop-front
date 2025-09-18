@@ -23,7 +23,7 @@ const InHousePage: React.FC = () => {
         <p className="text-[#5fa9af]">Explore our signature products crafted by The Culturing.</p>
       </div>
       
-      <ProductGrid products={products} />
+      { products ? <ProductGrid products={products} /> : <div>In House products coming soon...</div>}
     </Layout>
   );
 };

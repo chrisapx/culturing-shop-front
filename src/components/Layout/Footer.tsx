@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="text-center mt-6 text-sm text-culturing-gray">
-          <p>&copy; {new Date().getFullYear()} theculturing.shop - All Rights Reserved</p>
+          <p>&copy; {new Date().getFullYear()} theculturing.store - All Rights Reserved</p>
         </div>
       </div>
     </footer>

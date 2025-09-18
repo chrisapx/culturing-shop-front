@@ -23,7 +23,7 @@ const ArtistMerchPage: React.FC = () => {
         <p className="text-[#5fa9af]">Limited edition merchandise from our featured artists.</p>
       </div>
       
-      <ProductGrid products={products} />
+      { products ? <ProductGrid products={products} /> : <div>Artist Merch products coming soon...</div>}
     </Layout>
   );
 };
