@@ -9,10 +9,11 @@ export const fetchProducts = async (): Promise<Product[]> => {
 
     const data = await res.json();
 
-    const categoryMap: Record<string, "inhouse" | "mmpd" | "artist"> = {
+    const categoryMap: Record<string, "inhouse" | "mmpd" | "artist" | "literary"> = {
       IN_HOUSE: "inhouse",
       MMPD: "mmpd",
       ARTIST_MERCH: "artist",
+      LITERARY: "literary",
     };
 
     return data.map((item: any) => ({...item, category: categoryMap[item.category] || "inhouse" }));
@@ -23,7 +24,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
 };
 
 export const getProductsByCategory = async (
-  category: "inhouse" | "mmpd" | "artist"
+  category: "inhouse" | "mmpd" | "artist" | "literary"
 ): Promise<Product[]> => {
   const products = await fetchProducts();
   return products.filter((product) => product.category === category);

@@ -18,6 +18,7 @@ import ProfilePage from "./pages/ProfilePage";
 import HelpPage from "./pages/HelpPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import LiteraryPage from "./pages/Literary";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/in-house" element={<InHousePage />} />
+            <Route path="/literary" element={<LiteraryPage />} />
             <Route path="/artist-merch" element={<ArtistMerchPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/contact" element={<ContactPage />} />

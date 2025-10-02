@@ -60,6 +60,11 @@ const Navbar: FC = () => {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
+                    <Link to="/literary" className={`w-full ${isActive("/literary")}`}>
+                      LITERARY
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link to="/in-house" className={`w-full ${isActive("/in-house")}`}>
                       In-House
                     </Link>
@@ -94,6 +99,9 @@ const Navbar: FC = () => {
           <nav className="flex items-center space-x-6">
             <Link to="/" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/")}`}>
               MMPD
+            </Link>
+            <Link to="/literary" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/literary")}`}>
+              LITERARY
             </Link>
             <Link to="/in-house" className={`text-sm uppercase tracking-wider hover:text-accent ${isActive("/in-house")}`}>
               In-House
