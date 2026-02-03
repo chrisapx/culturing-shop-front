@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout/Layout";
 import { useStore } from "@/contexts/StoreContext";
-import { ArrowRight, Smartphone, QrCode } from "lucide-react";
+import { ArrowRight, Smartphone } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,11 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import axios from "axios";
 import { getAuthUser, getCurrentOrderId } from "@/lib/AuthCookieManager";
@@ -32,11 +27,6 @@ const PaymentPage: React.FC = () => {
   const { pRef } = useParams();
   const { cTotal } = useParams();
 
-  const qrCodes: Record<string, string> = {
-    airtel: "/qrcodes/airtel.png",
-    momo: "/qrcodes/momo.png",
-  };
-
   const form = useForm({
     defaultValues: {
       name: "",
@@ -46,7 +36,7 @@ const PaymentPage: React.FC = () => {
   });
 
   const merchantCodes: Record<string, string> = {
-    airtel: "959208",
+    airtel: "6851287",
     momo: "959208",
   };
 
@@ -62,7 +52,7 @@ const PaymentPage: React.FC = () => {
         fullNames: data.name,
         accountNumberUsed: "",
         mobileNumberUsed: data?.email,
-        merchantCodeUsed: merchantCodes[paymentMethod],
+        merchantCodeUsed: merchantCodes[paymentMethod] || "",
       };
 
       const res = await axios.post("https://api.suavemusicpr.com/api/v1/payments", body);
@@ -108,8 +98,7 @@ const PaymentPage: React.FC = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-3">Complete Your Payment</h1>
         <p className="text-gray-600">
-          Select your preferred payment method, view the details, then share
-          your transaction ID for verification.
+          Select your preferred payment method and enter your transaction ID for verification.
         </p>
       </div>
 
@@ -154,30 +143,6 @@ const PaymentPage: React.FC = () => {
                   {paymentMethod === method.id && (
                     <div className="px-6 pb-4 text-sm text-gray-700 animate-fadeIn">
                       {method.details}
-
-                      {/* QR only for Airtel & MoMo */}
-                      {qrCodes[method.id] && (
-                        <div className="mt-3">
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <button className="flex items-center gap-2 text-sm px-3 py-2 border rounded-md hover:bg-gray-100 transition">
-                                <QrCode className="h-4 w-4 text-gray-600" />
-                                View QR Code
-                              </button>
-                            </DialogTrigger>
-                            <DialogContent className="p-6 flex flex-col items-center">
-                              <h3 className="text-lg font-semibold mb-3">
-                                {method.label} QR
-                              </h3>
-                              <img
-                                src={qrCodes[method.id]}
-                                alt={`${method.label} QR`}
-                                className="w-64 h-64 rounded-lg border"
-                              />
-                            </DialogContent>
-                          </Dialog>
-                        </div>
-                      )}
                     </div>
                   )}
                 </div>
@@ -257,25 +222,6 @@ const PaymentPage: React.FC = () => {
             </Form>
           </div>
         </div>
-
-        {/* Order Summary */}
-        {/* <div className="lg:col-span-1">
-          <div className="bg-white border border-gray-200 p-6 rounded-md">
-            <h2 className="text-xl font-medium mb-4">Order Summary</h2>
-            <div className="flex justify-between mb-2">
-              <span>Subtotal</span>
-              <span>{cartTotal.toFixed(2)} UGX</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span>Shipping</span>
-              <span>0 UGX</span>
-            </div>
-            <div className="flex justify-between font-semibold text-lg mt-2 border-t pt-2">
-              <span>Total</span>
-              <span>{cartTotal.toFixed(2)} UGX</span>
-            </div>
-          </div>
-        </div> */}
       </div>
     </Layout>
   );
