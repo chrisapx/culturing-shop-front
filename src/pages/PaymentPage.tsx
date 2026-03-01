@@ -18,6 +18,7 @@ import {
 import { toast } from "sonner";
 import axios from "axios";
 import { getAuthUser, getCurrentOrderId } from "@/lib/AuthCookieManager";
+import { API_BASE_URL } from "@/lib/config";
 
 const PaymentPage: React.FC = () => {
   const { cartTotal, clearCart } = useStore();
@@ -55,7 +56,7 @@ const PaymentPage: React.FC = () => {
         merchantCodeUsed: merchantCodes[paymentMethod] || "",
       };
 
-      const res = await axios.post("https://api.suavemusicpr.com/api/v1/payments", body);
+      const res = await axios.post(`${API_BASE_URL}/api/v1/payments`, body);
 
       toast.success("Payment submitted successfully!");
       clearCart();

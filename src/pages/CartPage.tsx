@@ -7,6 +7,7 @@ import { ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import axios from "axios";
 import { getAuthUser } from "@/lib/AuthCookieManager";
+import { API_BASE_URL } from "@/lib/config";
 
 const CartPage: React.FC = () => {
   const { cartItems, cartTotal, clearCart } = useStore();
@@ -44,7 +45,7 @@ const CartPage: React.FC = () => {
     };
 
     try {
-      const response = await axios.post("https://api.suavemusicpr.com/api/v1/orders", order, {
+      const response = await axios.post(`${API_BASE_URL}/api/v1/orders`, order, {
         headers: { "Content-Type": "application/json" },
       });
       toast.success("Order created successfully!");

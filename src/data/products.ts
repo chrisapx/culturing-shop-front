@@ -1,8 +1,9 @@
 import { Product } from "../contexts/StoreContext";
+import { API_BASE_URL } from "../lib/config";
 
 export const fetchProducts = async (): Promise<Product[]> => {
   try {
-    const res = await fetch("https://api.suavemusicpr.com/api/v1/products");
+    const res = await fetch(`${API_BASE_URL}/api/v1/products`);
     if (!res.ok) {
       throw new Error("Failed to fetch products");
     }
