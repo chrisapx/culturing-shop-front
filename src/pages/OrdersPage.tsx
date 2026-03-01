@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { getAuthUser } from "@/lib/AuthCookieManager";
+import { API_BASE_URL } from "@/lib/config";
 
 interface OrderItem {
   id: number;
@@ -68,7 +69,7 @@ const OrdersPage: React.FC = () => {
       }
 
       try {
-        const response = await axios.get("https://api.suavemusicpr.com/api/v1/orders", {
+        const response = await axios.get(`${API_BASE_URL}/api/v1/orders`, {
           params: {
             page: 0,
             size: 300,

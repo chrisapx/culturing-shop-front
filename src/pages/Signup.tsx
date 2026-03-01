@@ -1,5 +1,6 @@
 "use client";
 import { setAuthUser, setUserToken } from "@/lib/AuthCookieManager";
+import { API_BASE_URL } from "@/lib/config";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +25,7 @@ const Signup: React.FC = () => {
     setError("");
 
     try {
-      const res = await fetch("https://api.suavemusicpr.com/api/v1/users", {
+      const res = await fetch(`${API_BASE_URL}/api/v1/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
